@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>My Page</title>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+    <div>
+      <input id="email"/>
+      <input id="password" type="password"/>
+    </div>
+    <button id="login">Login</button>
+    <button id="logout">Logout</button>
+    <button id="private">Private</button>
+    <div id="news">
+      News goes here
+    </div>
+    <script type="text/javascript">
+      $("#login").click(function(){
+        var email = $("#email").val();
+        var password = $("#password").val();
+
+        $.post("/api/signin", {email:email, password:password}, function(response){
+          console.log(response);
+          localStorage.setItem("token", response.token);
+        })
+      })
+
+      $("#private").click(function(){
+        $.ajax({
+          url: "/api/private",
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+        }).then(function(res){
+          console.log(res);
+          $("#news").text(JSON.stringify(res));
+        });
+      });
+
+      $("#logout").click(function(){
+        localStorage.setItem("token", "");
+        location.reload();
+      });
+    </script>
+</body>
+</html>

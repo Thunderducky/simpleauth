@@ -1,0 +1,11 @@
+DROP DATABASE IF EXISTS auth_example_db;
+CREATE DATABASE auth_example_db;
+
+USE auth_example_db;
+
+CREATE TABLE users (
+	id INTEGER AUTO_INCREMENT NOT NULL,
+	email VARCHAR(255) NOT NULL UNIQUE,
+	password VARCHAR(255) NOT NULL,
+	PRIMARY KEY(id)
+);
