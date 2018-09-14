@@ -55,7 +55,7 @@ app.post("/api/register", (req, res) => {
     }
     connection.query("INSERT INTO users (email, password) VALUES (?, ?)", [email, hash], function(err, results){
       if(err){
-        res.json({success: false, message: "Email address is taken"});
+        return res.json({success: false, message: "Email address is taken"});
       }
       res.json({success: true, results: results});
     });
